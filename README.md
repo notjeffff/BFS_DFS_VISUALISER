@@ -15,7 +15,7 @@ Features
 
 Notes
 
-I used ChatGPT as a coding assistant while building this project.
+I used Gemini as a coding assistant while building this project.
 It helped with debugging and structuring some parts of the code,
 but I made sure to understand the logic and modify the implementation myself.
 
