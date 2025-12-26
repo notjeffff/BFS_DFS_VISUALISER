@@ -243,15 +243,19 @@ document.addEventListener("DOMContentLoaded", function() {
     manipulation: {
       enabled: false,
     },
-    nodes: {
-      shape: "circle", // <-- CHANGED
-      size: 25, 
-      font: { 
-        size: 16, 
-        color: "#000000" // <-- CHANGED to black
-      }, 
-      borderWidth: 2,
-    },
+    // ...
+nodes: {
+  shape: "dot", 
+  size: 25,     
+  font: { 
+    size: 18,    
+    color: "#e6edf3", 
+    strokeWidth: 0,   
+    background: "none"
+  }, 
+  borderWidth: 2,
+},
+// ...
     edges: {
       width: 3
     }
@@ -320,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function() {
           nodes.update({ 
             id: nodeName, 
             color: { background: "#00aeff", border: "#0099cc" },
-            font: { color: '#000000' } // Reset font to black
+            font: { color: '#e6edf3' } // Reset font to white
           });
           updateStatus(`Node '${nodeName}' is no longer a Wall.`, false);
         }
@@ -738,6 +742,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // Resets all nodes and edges to default colors
+  // Resets all nodes and edges to default colors
   function resetGraphVisuals() {
     // 1. Reset all nodes
     const allNodes = nodes.get();
@@ -752,11 +757,12 @@ document.addEventListener("DOMContentLoaded", function() {
         return { 
           id: node.id, 
           color: { background: "#00aeff", border: "#0099cc" },
-          font: { color: '#000000' }
+          font: { color: '#e6edf3' } // <--- CHANGE THIS TO '#e6edf3' (White)
         };
       }
     });
     nodes.update(nodeUpdates);
+    
 
     // 2. Reset all edges
     const allEdges = edges.get();
