@@ -633,3 +633,22 @@ h1 {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+.dev-links p {
+  margin: 6px 0;
+}
+
+.dev-links a {
+  color: #5fa8ff;
+  text-decoration: none;
+}
+
+.dev-links a:hover {
+  text-decoration: underline;
+}
+
+.about {
+  display: block;
+  margin: 6px 0 10px 0;
+  color: #bfbfbf;
+  font-size: 14px;
+}
