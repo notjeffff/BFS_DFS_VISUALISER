@@ -1,0 +1,635 @@
+/* --- "Awesome" Splash Screen --- */
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(13, 17, 23, 0.95); /* Dark background with 95% opacity */
+  z-index: 2001; /* On top of the modals */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+#splash-box {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 30px 40px;
+  width: 600px;
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  color: #c9d1d9;
+}
+#splash-box h2 {
+  text-align: center;
+  color: #58a6ff;
+  font-size: 2rem;
+  margin-top: 0;
+  border-bottom: 1px solid #30363d;
+  padding-bottom: 15px;
+}
+#splash-box ul {
+  line-height: 1.8;
+  font-size: 1rem;
+  padding-left: 20px;
+}
+#splash-box li {
+  margin-bottom: 10px;
+}
+#splash-box button {
+  display: block;
+  margin: 25px auto 0 auto;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #238636;
+  border: 1px solid #2ea043;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+#splash-box button:hover {
+  background-color: #2b9a40;
+}
+#splash-screen.hidden {
+  opacity: 0;
+  pointer-events: none; /* Make it unclickable */
+}
+
+/* --- "Fabulous" Modal Pop-up Styles --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(13, 17, 23, 0.95); 
+  z-index: 2000; /* On top of everything, but under splash */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out;
+}
+.modal-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal-content {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 30px 40px;
+  width: 600px;
+  max-width: 90%;
+  max-height: 80vh; /* Make modal scrollable */
+  overflow-y: auto; /* Add scroll for content */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  color: #c9d1d9;
+  transform: scale(0.95);
+  transition: transform 0.2s ease-out;
+}
+.modal-overlay.visible .modal-content {
+  transform: scale(1);
+}
+.modal-content h2 {
+  text-align: center;
+  color: #58a6ff;
+  font-size: 2rem;
+  margin-top: 0;
+  border-bottom: 1px solid #30363d;
+  padding-bottom: 15px;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 2.5rem;
+  color: #8b949e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.modal-close:hover {
+  color: #e6edf3;
+  transform: scale(1.1);
+}
+/* Styles for "Learn" & "Help" Modals */
+.modal-text-content {
+  line-height: 1.7;
+  font-size: 1rem;
+}
+.modal-text-content h3 {
+  color: #a5d6ff;
+  border-bottom: 1px solid #30363d;
+  padding-bottom: 5px;
+  margin-top: 25px;
+}
+.modal-text-content ul, .modal-text-content ol {
+  padding-left: 20px;
+}
+.modal-text-content li {
+  margin-bottom: 10px;
+}
+.modal-text-content p {
+  line-height: 1.6;
+  color: #c9d1d9;
+}
+.modal-text-content .video-container {
+  display: flex;
+  flex-direction: column; /* Stack videos */
+  gap: 15px;
+  margin: 15px 0;
+}
+.modal-text-content iframe {
+  border-radius: 6px;
+  border: 1px solid #30363d;
+}
+.modal-text-content hr {
+  border: none;
+  height: 1px;
+  background-color: #30363d;
+  margin: 20px 0;
+}
+
+/* --- Styles for "Developed By" Box --- */
+.dev-team {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between members */
+}
+.dev-member {
+  display: flex;
+  align-items: center;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 20px;
+}
+.dev-photo {
+  width: 150px; 
+  height: 150px; 
+  border-radius: 12px; /* Blunt corners */
+  background: #30363d;
+  color: #8b949e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  object-fit: cover; 
+}
+
+
+#photo-jeff {
+  background-image: url('images/jeff.jpg');
+}
+#photo-sriram {
+  background-image: url('images/sriram.png');
+}
+#photo-abhinav {
+  background-image: url('images/abhinav.png');
+}
+#photo-prof {
+  background-image: url('images/prof.png');
+}
+
+.dev-details {
+  margin-left: 25px;
+  display: flex;
+  flex-direction: column;
+}
+.dev-details strong {
+  font-size: 1.5rem;
+  color: #e6edf3;
+  margin-bottom: 5px;
+}
+.dev-details span {
+  font-size: 1.1rem;
+  color: #a5d6ff;
+}
+
+/* NEW: Style for the "Guided By" H2 inside the modal */
+.modal-content .dev-team h2 {
+  text-align: center;
+  color: #58a6ff;
+  font-size: 1.8rem;
+  margin-top: 20px;
+  margin-bottom: 0px; /* Aligns with 20px gap from .dev-team */
+  border-top: 1px solid #30363d;
+  padding-top: 25px;
+  border-bottom: none; /* Override default h2 */
+}
+
+
+/* --- Meta Buttons (Help, Learn, Dev) --- */
+.meta-buttons {
+  position: absolute;
+  top: 15px;
+  right: 5%; /* Aligns with the 90% width */
+  z-index: 1001; /* On top of the control panel */
+}
+.meta-buttons button {
+  background-color: #1f6feb; /* Blue */
+  border: 1px solid #388bfd;
+  color: white;
+  padding: 8px 16px;
+  margin-left: 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0,0,0,0.08);
+  transform: scale(1) translateY(0);
+}
+.meta-buttons button:active {
+  transform: scale(0.98) translateY(1px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.meta-buttons button:hover {
+  background-color: #3081f7;
+}
+/* "Guided By" Button style has been REMOVED */
+
+
+/* --- Global Styles (Dark Mode) --- */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 10px;
+  background-color: #0d1117; /* GitHub Dark Background */
+  color: #c9d1d9; /* Light gray text */
+}
+
+h1 {
+  text-align: center;
+  color: #e6edf3; /* White text */
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 30px auto 20px auto;
+  text-shadow: 0 0 10px rgba(56, 139, 253, 0.5);
+}
+
+/* --- Main Control Panel (Dark Mode) --- */
+.controls {
+  text-align: left;
+  margin: 60px auto 20px auto; /* Added margin-top to make room for meta buttons */
+  padding: 12px;
+  width: 90%;
+  border: 1px solid #30363d;
+  background: #161b22;
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; /* Stack the rows vertically */
+  gap: 10px; /* Space between rows */
+}
+
+/* This is the new "row" div */
+.control-row {
+  display: flex;
+  flex-direction: row; /* Lay out items in a row */
+  flex-wrap: wrap; /* Allow wrapping if screen is tiny */
+  align-items: center;
+  gap: 10px; /* Space between groups */
+}
+
+/* --- Control Groups (Dark Mode) --- */
+.input-group, .radio-group {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background-color: #0d1117;
+}
+
+/* Make the main groups grow to fill the space */
+#results-panel { flex-grow: 1; }
+#group-selection { flex-grow: 1; }
+
+.controls label {
+  font-weight: 600;
+  margin-right: 8px;
+  font-size: 14px;
+  color: #c9d1d9;
+}
+
+.controls select, .controls button, .controls input[type="text"] {
+  padding: 6px 10px;
+  font-size: 14px;
+  margin-left: 5px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background-color: #21262d;
+  color: #e6edf3;
+}
+
+.controls input[type="text"] {
+  width: 90px;
+}
+.controls select {
+  cursor: pointer;
+}
+
+/* --- "Juicy" Button Styles (Dark Mode) --- */
+.controls button {
+  cursor: pointer;
+  color: white;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  font-weight: 600;
+  transition: all 0.05s ease-out;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0,0,0,0.08);
+  transform: scale(1) translateY(0);
+}
+
+.controls button:active {
+  transform: scale(0.98) translateY(1px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Green for "Add" */
+#add-node-button { background-color: #238636; border-color: #2ea043; }
+#add-node-button:hover { background-color: #2b9a40; }
+
+/* Blue for "Run" */
+#run-bfs-button { background-color: #1f6feb; border-color: #388bfd; }
+#run-bfs-button:hover { background-color: #3081f7; }
+/* Purple for "Run" */
+#run-dfs-button { background-color: #8957e5; border-color: #a07cf8; }
+#run-dfs-button:hover { background-color: #9262f0; }
+
+/* Gray/Black for "Tools" */
+#toggle-wall-button, #delete-mode-button {
+  background-color: #30363d; border-color: #8b949e;
+}
+#toggle-wall-button:hover, #delete-mode-button:hover {
+  background-color: #444c56;
+}
+#clear-all-button {
+  background-color: #484f58;
+  border-color: #8b949e;
+  margin-left: 10px;
+}
+#clear-all-button:hover {
+  background-color: #636c76;
+}
+
+/* Active State for Tools */
+#toggle-wall-button.active {
+  background-color: #f0f6fc;
+  color: #0d1117;
+  box-shadow: 0 0 0 2px #0d1117, 0 0 0 4px #c9d1d9;
+}
+#delete-mode-button.active {
+  background-color: #da3633; border-color: #f85149;
+  box-shadow: 0 0 0 2px #161b22, 0 0 0 4px #da3633;
+}
+
+/* --- "Wow" Generator Buttons --- */
+#load-sample-graph-button {
+  background-color: #fd7e14; /* Orange */
+  border-color: #fd7e14;
+}
+#load-sample-graph-button:hover {
+  background-color: #e36a00;
+}
+
+/* --- Status Panel (Dark Mode) --- */
+#results-panel {
+  border-color: #388bfd;
+  background-color: #0c2d6b;
+}
+#status-message {
+  font-weight: 600;
+  color: #a5d6ff;
+  margin-left: 5px;
+}
+
+/* --- Radio Button Group --- */
+.radio-group label {
+  font-weight: normal;
+}
+
+/* --- Main 70/30 Layout --- */
+#main-container {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin: 20px auto; 
+}
+
+/* --- "Awesome" Canvas (Dark Mode) --- */
+#graph-canvas {
+  width: 70%;
+  height: 600px;
+  border: 1px solid #30363d;
+  margin: 0; 
+  box-sizing: border-box;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(56, 139, 253, 0.1);
+  transition: all 0.2s ease-out;
+  background-color: #0d1117;
+  background-image: 
+    radial-gradient(
+      circle 400px at var(--mouse-x, -500px) var(--mouse-y, -500px), 
+      rgba(56, 139, 253, 0.15) 0%,
+      rgba(56, 139, 253, 0) 60%
+    ),
+    linear-gradient(rgba(48, 54, 61, 0.8) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(48, 54, 61, 0.8) 1px, transparent 1px);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  background-position: 0 0, 0 0, 0 0;
+}
+
+/* =========================================
+"AWESOME" DATA VISUALIZER PANEL - THIS IS THE FIX
+=========================================
+*/
+#data-visualizer {
+  width: 30%;
+  height: 600px; 
+  padding: 0 15px;
+  border: 1px solid #30363d;
+  border-left: none; 
+  background-color: #161b22;
+  box-sizing: border-box; 
+  border-radius: 0 8px 8px 0;
+  
+  /* THIS IS THE FIX for spacing */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adds space between all containers */
+}
+#data-visualizer h3 {
+  text-align: center;
+  border-bottom: 1px solid #30363d;
+  padding-bottom: 8px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: #388bfd;
+  flex-shrink: 0; 
+  font-size: 15px;
+}
+
+/* This is the container for a (h3 + data-box) */
+.data-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Fix for grid overflow */
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 6px;
+  transition: all 0.2s ease-out;
+}
+.data-container:hover {
+  border-color: #388bfd;
+  box-shadow: 0 0 8px rgba(56, 139, 253, 0.3);
+}
+
+/* This is the box that holds the items */
+.data-box {
+  width: 100%;
+  margin: 0;
+  border: none; /* No double border */
+  overflow: hidden;
+  position: relative;
+  flex-grow: 1; /* Make box fill its container */
+}
+
+
+/* --- 1. The "Awesome" Horizontal Queue --- */
+#queue-container {
+  flex-shrink: 0;
+  flex-grow: 0;
+  height: 110px; /* Fixed height */
+}
+#queue-box {
+  display: flex;
+  flex-direction: row; /* Fixed direction */
+  align-items: center; 
+  padding: 0 50px; /* Padding for labels */
+  overflow-x: auto; 
+  overflow-y: hidden;
+}
+.queue-item {
+  padding: 8px 12px;
+  margin: 0 4px;
+  background-color: #1a3250;
+  border: 1px solid #388bfd;
+  color: #a5d6ff;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap; 
+  animation: slide-in-right 0.3s ease;
+  flex-shrink: 0; /* Fixed squeezing */
+}
+#queue-box::before, #queue-box::after {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-style: italic;
+  font-size: 14px;
+  color: #8b949e;
+}
+#queue-box::before { content: 'Front'; left: 10px; }
+#queue-box::after { content: 'Back'; right: 10px; }
+
+/* --- 2. The "Awesome" Vertical Stack --- */
+#stack-container {
+  flex-shrink: 0;
+  flex-grow: 0;
+  height: 190px; /* Fixed height */
+}
+#stack-box {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 10px;
+  padding-top: 30px;
+  overflow-y: auto;
+}
+.stack-item {
+  padding: 8px 12px;
+  margin: 4px 0;
+  background-color: #38311f;
+  border: 1px solid #c69026;
+  color: #f0c058;
+  border-radius: 4px;
+  font-weight: 600;
+  text-align: center;
+  animation: slide-in-top 0.3s ease;
+}
+#stack-box::before {
+  content: 'Top';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 8px;
+  font-style: italic;
+  font-size: 14px;
+  color: #8b949e;
+}
+
+/* --- 3. The "Awesome" Algorithm Log --- */
+#log-container {
+  flex-grow: 1; /* This makes the log box BIG */
+}
+#log-box {
+  height: 100%; 
+  padding: 10px;
+  overflow-y: auto; /* Scrollable! */
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8b949e;
+}
+.log-item {
+  animation: fade-in 0.3s ease;
+}
+.log-item.error {
+  color: #f85149;
+  font-weight: bold;
+}
+
+/* --- 4. The "Awesome" Metrics Panel --- */
+#metrics-container {
+  flex-shrink: 0; 
+  flex-grow: 0;
+  height: 110px; /* Fixed height */
+}
+#metrics-box {
+  height: 100%; 
+  padding: 10px;
+  font-size: 14px;
+  color: #c9d1d9;
+  overflow-y: auto;
+}
+#metrics-box div {
+  margin-bottom: 8px;
+}
+#metrics-box strong {
+  color: #e6edf3;
+}
+
+/* --- 5. Animations --- */
+@keyframes slide-in-right {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slide-in-top {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

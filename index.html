@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BFS/DFS Visualizer</title>
+  
+  <link rel="stylesheet" href="style.css">
+
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+</head>
+<body>
+
+  <div id="splash-screen">
+    <div id="splash-box">
+      <h2>Instructions</h2>
+      <ul>
+        <li><b>Add Node:</b> Type a name (e.g., 'A'), click 'Add Node', then click on the grid to place it.</li>
+        <li><b>Add Edge:</b> In the default mode, <b>double-click</b> one node, then <b>double-click</b> another to connect them.</li>
+        <li><b>Edge Type:</b> Use the "Edge Type" radio buttons to create one-way (Directed) arrows.</li>
+        <li><b>Tools:</b> Use "Toggle Wall" or "Delete Item" to switch modes. Click the active button again to return to "Add Node" mode.</li>
+        <li><b>Walls:</b> In "Wall Mode", <b>single-click</b> any node to turn it into an impassable obstacle.</li>
+        <li><b>Delete:</b> In "Delete Mode", <b>single-click</b> any node or edge to remove it.</li>
+        <li><b>Generators:</b> Click "Load Sample Graph" to instantly load the directed graph from your image.</li>
+        <li><b>Run:</b> Select a "Start Node" and "End Node" from the dropdowns, then click 'Run BFS' or 'Run DFS'!</li>
+      </ul>
+      <button id="continue-button">CONTINUE &gt;</button>
+    </div>
+  </div>
+
+  <div class="meta-buttons">
+    <button id="download-button">Download</button>
+    <button id="help-button">Help</button>
+    <button id="learn-button">Learn</button>
+    <button id="dev-button">Developed By</button>
+  </div>
+
+  <h1>Graph Algorithm Visualizer</h1>
+  
+  <div class="controls">
+    
+    <div class="control-row">
+      <div class="input-group" id="results-panel">
+        <label>Status:</label>
+        <span id="status-message">Ready. Build your graph!</span>
+      </div>
+      <div class="input-group" id="group-add-node">
+        <label for="node-name-input">Node Name:</label>
+        <input type="text" id="node-name-input" placeholder="e.g., A">
+        <button id="add-node-button">Add Node</button>
+      </div>
+    </div>
+    
+    <div class="control-row">
+      <div class="input-group" id="group-selection">
+        <label for="start-node">Start Node:</label>
+        <select id="start-node">
+          <option value="">--Select--</option>
+        </select>
+        <label for="end-node">End Node:</label>
+        <select id="end-node">
+          <option value="">--Select--</option>
+        </select>
+        <button id="run-bfs-button">Run BFS</button>
+        <button id="run-dfs-button">Run DFS</button>
+      </div>
+    </div>
+    
+    <div class="control-row">
+      <div class="radio-group" id="group-edge-type">
+        <label>Edge Type:</label>
+        <input type="radio" id="bidirectional" name="edge-type" value="bi" checked>
+        <label for="bidirectional">Bidirectional</label>
+        <input type="radio" id="directed" name="edge-type" value="di">
+        <label for="directed">Directed</label>
+      </div>
+      <div class="input-group" id="group-tools">
+        <button id="toggle-wall-button">Toggle Wall</button>
+        <button id="delete-mode-button">Delete Item</button>
+        <button id="clear-all-button">Clear All</button>
+      </div>
+      <div class="input-group" id="group-generators">
+        <label>Generators:</label>
+        <button id="load-sample-graph-button">Load Sample Graph</button>
+      </div>
+    </div>
+    
+  </div> <div id="main-container">
+    <div id="graph-canvas"></div>
+    <div id="data-visualizer">
+      
+      <div id="queue-container" class="data-container">
+        <h3>Queue (BFS)</h3>
+        <div id="queue-box" class="data-box">
+          </div>
+      </div>
+
+      <div id="stack-container" class="data-container">
+        <h3>Stack (DFS)</h3>
+        <div id="stack-box" class="data-box">
+          </div>
+      </div>
+      
+      <div id="log-container" class="data-container">
+        <h3>Algorithm Log</h3>
+        <div id="log-box" class="data-box">
+          </div>
+      </div>
+
+      <div id="metrics-container" class="data-container">
+        <h3>Metrics</h3>
+        <div id="metrics-box" class="data-box">
+          </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="dev-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <span class="modal-close" id="dev-modal-close">&times;</span>
+      <h2>Developed By</h2>
+      <div class="dev-team">
+        <div class="dev-member">
+          <div class="dev-photo" id="photo-jeff"></div>
+          <div class="dev-details">
+            <strong>Jeff H</strong>
+            <span>24BCE1189</span>
+          </div>
+        </div>
+        <div class="dev-member">
+          <div class="dev-photo" id="photo-sriram"></div>
+          <div class="dev-details">
+            <strong>Sriram Prasanna</strong>
+            <span>24BCE5049</span>
+          </div>
+        </div>
+        <div class="dev-member">
+          <div class="dev-photo" id="photo-abhinav"></div>
+          <div class="dev-details">
+            <strong>K.Abhinav</strong>
+            <span>24BCE5397</span>
+          </div>
+        </div>
+
+        <h2>Guided By</h2>
+        <div class="dev-member">
+          <div class="dev-photo" id="photo-prof"></div>
+          <div class="dev-details">
+            <strong>Dr. Swaminathan Annadurai</strong>
+            <span>Assistant Professor at Vellore Institute of Technology (VIT),<br>Chennai Campus.</span>
+          </div>
+        </div>
+        </div>
+    </div>
+  </div>
+  
+  <div id="learn-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <span class="modal-close" id="learn-modal-close">&times;</span>
+      <h2>Learn</h2>
+      
+      <div class="modal-text-content">
+        
+        <h3>How We built this project</h3>
+        <p>
+          This project's "fabulous" design comes from one key idea: separating the <b>"Brain"</b> from the <b>"Visuals."</b> This is a professional architecture. The "Brain" is pure JavaScript logic, and the "Visuals" are the "dumb" drawing layer (HTML, CSS, and the `vis.js` library).
+        </p>
+        <p>
+          <b>The "Brain" (The Model):</b> We created a JavaScript <b>`Graph` class</b> that acts as our logical model. It knows nothing about HTML or CSS. Its only job is to manage the state of the graph. It uses an <b>Adjacency List (a `Map`)</b> to store all node connections (e.g., node 'A' maps to an array `['B', 'C']`) and a `Set` to track "Wall" nodes. All the algorithm logic, like `bfs()` and `dfs()`, lives inside this class. When an algorithm is run, it does not draw anything. Instead, it creates a "movie script"—a detailed array of animation steps (like `{type: 'visitNode', node: 'B'}` or `{type: 'queueUpdate', queue: ['C','D']}`)—and returns it.
+        </p>
+        <p>
+          <b>The "Visuals" (The View):</b> This is everything you see. It's built from **HTML** (the skeleton for all the buttons and boxes) and **CSS** (which provides the "fabulous" dark mode, grid layouts, and animations). The main graph canvas is powered by the <b>`vis.js`</b> library, which handles the complex job of rendering nodes and edges. The animated Queue, Stack, and Log panels are custom-built HTML `div`s that are manipulated by our JavaScript.
+        </p>
+        <p>
+          <b>The "Director" (The Controller):</b> This is the main part of our <b>`app.js`</b> file. It acts as the "director" that connects the "Brain" to the "Visuals." It uses `addEventListener` to listen for all button clicks (like "Add Node" or "Run BFS"). When you click "Run BFS," the Director first calls the "Brain" (`logicalGraph.bfs()`) to get the "movie script" (the animation array). Then, it uses a master `animate()` function with `setTimeout` to loop through that script, one step at a time, creating the 800ms delay. It calls the correct visual function (like `updateQueueVisual()`) for each step, creating the smooth, easy-to-follow animation.
+        </p>
+        
+        <hr> <h3>Textbook Materials: BFS (Breadth-First Search)</h3>
+        <p><b>What it is:</b> BFS is a graph traversal algorithm that explores "layer by layer." It starts at a source node and explores all its immediate neighbors first, before moving on to the next level of neighbors. It is **guaranteed to find the shortest path** in terms of the number of edges (for unweighted graphs).</p>
+        <p><b>How it works step-by-step:</b>
+          <ol>
+            <li>Initialize an empty <b>Queue</b> (First-In, First-Out data structure) and a "visited" `Set`.</li>
+            <li>Add the <b>start node</b> to the Queue and mark it as "visited."</li>
+            <li>While the Queue is not empty:</li>
+            <li>  <b>Dequeue</b> a node. This is our 'current' node.</li>
+            <li>  Check if `currentNode` is the <b>goal node</b>. If yes, we are done and the path is found.</li>
+            <li>  If not, look at all of `currentNode`'s neighbors.</li>
+            <li>  For each neighbor that has <b>not</b> been visited and is <b>not</b> a wall:</li>
+            <li>    Mark it as "visited."</li>
+            <li>    Store `currentNode` as its "parent" (so we can rebuild the path later).</li>
+            <li>    <b>Enqueue</b> the neighbor (add it to the back of the Queue).</li>
+          </ol>
+        </p>
+
+        <h4 style="color: #a5d6ff;">Example:</h4>
+        <p>
+          Imagine a graph: <b>Start(A), Goal(F)</b>
+          <ul>
+            <li>A is connected to B, C</li>
+            <li>B is connected to D</li>
+            <li>C is connected to E</li>
+            <li>D is connected to F</li>
+            <li>E is connected to F</li>
+          </ul>
+        </p>
+        <ol style="font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.6;">
+          <li><b>Start.</b> Queue: [ ], Visited: { }</li>
+          <li><b>Enqueue A.</b> Queue: [A], Visited: {A}</li>
+          <li><b>Dequeue A.</b> (Not goal). Find neighbors (B, C). Enqueue B, C.
+            <br>&nbsp; Queue: [B, C], Visited: {A, B, C}</li>
+          <li><b>Dequeue B.</b> (Not goal). Find neighbors (D). Enqueue D.
+            <br>&nbsp; Queue: [C, D], Visited: {A, B, C, D}</li>
+          <li><b>Dequeue C.</b> (Not goal). Find neighbors (E). Enqueue E.
+            <br>&nbsp; Queue: [D, E], Visited: {A, B, C, D, E}</li>
+          <li><b>Dequeue D.</b> (Not goal). Find neighbors (F). Enqueue F.
+            <br>&nbsp; Queue: [E, F], Visited: {A, B, C, D, E, F}</li>
+          <li><b>Dequeue E.</b> (Not goal). Find neighbors (F). F is already visited. Do nothing.
+            <br>&nbsp; Queue: [F], Visited: {A, B, C, D, E, F}</li>
+          <li><b>Dequeue F.</b> <b>GOAL FOUND!</b> Path (via parents): A &rarr; B &rarr; D &rarr; F.</li>
+        </ol>
+        <p><i>(Note: Even though A &rarr; C &rarr; E &rarr; F was also a valid path, BFS found the other path first. It explores all nodes at one "level" before moving to the next.)</i></p>
+        <h3>Textbook Materials: DFS (Depth-First Search)</h3>
+        <p><b>What it is:</b> DFS is a graph traversal algorithm that explores "as deep as possible" down one path before "backtracking." It's like solving a maze by always taking the first available turn until you hit a dead end, at which point you go back and try the next turn.</p>
+        <p><b>How it works step-by-step:</b>
+          <ol>
+            <li>Start with a <b>Stack</b> (Last-In, First-Out data structure) and a "visited" `Set`.</li>
+            <li>Add the <b>start node</b> to the Stack and mark it as "visited."</li>
+            <li>While the Stack is not empty:</li>
+            <li>  <b>Pop</b> a node. This is our 'current' node.</li>
+            <li>  Check if `currentNode` is the <b>goal node</b>. If yes, we are done.</li>
+            <li>  Look at all of `currentNode`'s neighbors.</li>
+            <li>  For each neighbor that has <b>not</b> been visited and is <b>not</b> a wall:</li>
+            <li>    Mark it as "visited."</li>
+            <li>    Store `currentNode` as its "parent."</li>
+            <li>    <b>Push</b> the neighbor onto the <b>Stack</b>.</li>
+          </ol>
+        </p>
+
+        <h4 style="color: #a5d6ff;">Example:</h4>
+        <p>
+          Using the same graph: <b>Start(A), Goal(F)</b>
+          <ul>
+            <li>A is connected to B, C</li>
+            <li>B is connected to D</li>
+            <li>C is connected to E</li>
+            <li>D is connected to F</li>
+            <li>E is connected to F</li>
+          </ul>
+        </p>
+        <ol style="font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.6;">
+          <li><b>Start.</b> Stack: [ ], Visited: { }</li>
+          <li><b>Push A.</b> Stack: [A], Visited: {A}</li>
+          <li><b>Pop A.</b> (Not goal). Find neighbors (B, C). Push them.
+            <br>&nbsp; Stack: [B, C], Visited: {A, B, C}</li>
+          <li><b>Pop C.</b> (Not goal). Find neighbors (E). Push E.
+            <br>&nbsp; Stack: [B, E], Visited: {A, B, C, E}</li>
+          <li><b>Pop E.</b> (Not goal). Find neighbors (F). Push F.
+            <br>&nbsp; Stack: [B, F], Visited: {A, B, C, E, F}</li>
+          <li><b>Pop F.</b> <b>GOAL FOUND!</b> Path (via parents): A &rarr; C &rarr; E &rarr; F.</li>
+        </ol>
+        <p><i>(Note: The order neighbors are added to the stack (e.g., B then C, or C then B) can change the path. In our tool, we check neighbors in order. This path is different from the BFS path because DFS explores one branch (A&rarr;C&rarr;E) completely before "backtracking" to check the A&rarr;B branch.)</i></p>
+        <hr>
+
+        <h3>Animated Videos explaining</h3>
+        <div class="video-container">
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/HZ5YTanv5QE" title="BFS Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/Urx87-NMm6c" title="DFS Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <h3>References</h3>
+        <p>
+          1. T. H. Cormen, C. E. Leiserson, R. L. Rivest, and C. Stein, "Introduction to Algorithms (3rd ed.)"<br>
+          2. Robert Sedgewick and Kevin Wayne, "Algorithms (4th ed.)"<br>
+          3. vis.js Network Library Documentation (visjs.org)
+        </p>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="help-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <span class="modal-close" id="help-modal-close">&times;</span>
+      <h2>Help</h2>
+      <div class="modal-text-content">
+        <h3>How to Use This Tool</h3>
+        <p>Here is the correct flow to execute the project and interpret the results.</p>
+        <ul>
+          <li><b>Correct Flow:</b> 1. Add Nodes &rarr; 2. Add Edges &rarr; 3. Select Start/End &rarr; 4. Run Algorithm.</li>
+          <li><b>1. Add Node (Input):</b> Type a name in the "Node Name" box (e.g., 'A'), click the green "Add Node" button, then click on the grid to place your node.</li>
+          <li><b>2. Add Edge (Input):</b> In the default mode, <b>double-click</b> one node, then <b>double-click</b> another to connect them.</li>
+          <li><b>3. Select Start/End (Input):</b> Use the "Start Node" and "End Node" dropdowns to select where the algorithm should begin and end.</li>
+          <li><b>4. Run (Execute):</b> Click 'Run BFS' or 'Run DFS' to start the animation.</li>
+        </ul>
+        <h3>What is Processed?</h3>
+        <p>When you click "Run," the "Brain" (our JavaScript `Graph` class) takes your visual graph and runs the chosen algorithm. It creates a step-by-step list of every node it visits, every edge it crosses, and how the Queue/Stack changes. The animation you see is a playback of this process.</p>
+        <h3>How to Interpret the Results</h3>
+        <ul>
+          <li><b>The Animation:</b> The <b>Start Node</b> is bright green. Nodes being "visited" turn <b>yellow</b>. The final path will **glow bright green**.</li>
+          <li><b>The Log:</b> The "Algorithm Log" box shows a detailed, line-by-line "thought process" of the algorithm, such as "Dequeue 'A'. Visiting..." or "Found unvisited neighbor: 'B'. Enqueue."</li>
+          <li><b>The Status Bar:</b> After the animation, the "Status" bar at the top will show you the final path found, like `Path found: A → B → C`.</li>
+          <li><b>The Metrics:</b> The "Metrics" box gives you a final report card showing the time taken, nodes visited, and total path length (hops).</li>
+        </ul>
+        <h3>Other Tools</h3>
+        <ul>
+          <li><b>Directed Edges:</b> Select the "Directed" radio button *before* adding an edge to create a one-way arrow.</li>
+          <li><b>Walls:</b> Click "Toggle Wall" (it turns black). Click any node to make it an impassable obstacle.</li>
+          <li><b>Delete:</b> Click "Delete Item" (it turns red). <b>Single-click</b> any node or edge to remove it.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <script src="app.js"></script>
+
+</body>
+</html>
